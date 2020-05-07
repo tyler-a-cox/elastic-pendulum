@@ -1,17 +1,18 @@
 import os
 import glob
+import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 from multiprocessing import cpu_count, Pool
 
+from _keys import FIG_DIR, VID_DIR
 
-class DoubleSpring:
+
+class ElasticPendulum:
     """
     """
-    def __init__(self, alpha_0=None, beta_0=None, t_end=2, dt=0.01, fig_cache='_figs', cores=None):
-        """
-        """
+    def __init__(self, alpha_0=None, beta_0=None, t_end=2, fps=24, cores=None):
         self.g = 9.81
         if alpha_0 is not None:
             self.alpha_0 = alpha_0
@@ -23,9 +24,11 @@ class DoubleSpring:
         else:
             self.beta_0 = np.random.uniform(-np.pi, np.pi)
 
-        self.fig_cache = fig_cache
-        if not os.path.exists(self.fig_cache):
-            os.mkdir(self.fig_cache)
+        self.fig_dir = FIG_DIR
+        self.vid_dir = VID_DIR
+
+        if not os.path.exists(self.fig_dir):
+            os.mkdir(self.fig_dir)
 
         self.alpha_1 = 0.
         self.beta_1 = 0.
@@ -34,7 +37,6 @@ class DoubleSpring:
         self.b0 = 1.
         self.a1 = 0.
         self.b1 = 0.
-        self.dt = dt
         self.t_end = t_end
 
         #
@@ -44,6 +46,8 @@ class DoubleSpring:
         self.m2 = 1.
         self.k1 = np.random.uniform(35, 55)
         self.k2 = np.random.uniform(35, 55)
+        self.fps = fps
+        self.dt = 1. / self.fps
 
         self.t_eval = np.arange(0, self.t_end, self.dt)
         if cores is None:
@@ -96,13 +100,12 @@ class DoubleSpring:
         return [Y[1], self._alpha_pp(t, Y), Y[3], self._beta_pp(t, Y),
                 Y[5], self._a_pp(t, Y), Y[7], self._b_pp(t, Y)]
 
-    def integrate(self):
+    def integrate(self, method='RK45'):
         """
         """
         Y0 = [self.alpha_0, self.alpha_1, self.beta_0, self.beta_1, self.a0, self.a1, self.b0, self.b1]
-        self.solution = solve_ivp(self._inte, [0, self.t_end], Y0, t_eval=self.t_eval)
-        self.cartesian(self.solution.y[[0, 2, 4, 6]].T)
-        return self.solution
+        self.solution = solve_ivp(self._inte, [0, self.t_end], Y0, t_eval=self.t_eval, method=method)
+        return self.cartesian(self.solution.y[[0, 2, 4, 6]].T)
 
     def cartesian(self, array):
         """
@@ -128,7 +131,7 @@ class DoubleSpring:
     def plot_spring(self):
         """
         """
-        colors_0, colors_1 = self._plot_settings()
+        colors_0, colors_1 = self._plot_settings(self.x1)
 
         # Plot
         fig, ax = plt.subplots(figsize=(10,6))
@@ -136,19 +139,19 @@ class DoubleSpring:
         ax.scatter(self.x2, self.y2, color=colors_1, s=1)
         plt.show()
 
-    def animate_spring(self, movie=False):
+    def animate_spring(self, save_movie=True):
         """
         """
         self.clear_figs()
         pool = Pool(processes=self.cores)
         pool.map(self.save_frame, np.arange(self.x1.shape[0]))
-        if movie:
+        if save_movie:
             self.make_movie()
 
-    def save_frame_single(self, i, dpi=100, trace=True, axes_off=True, size=800):
+    def save_frame(self, i, dpi=100, trace=True, axes_off=True, size=800):
         """
         """
-        colors_0, colors_1 = self._plot_settings(self.x1)
+        colors_0, colors_1 = self._plot_settings(self.x1[:i])
         fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
         if trace:
             plt.scatter(self.x1[:i], self.y1[:i], color=colors_0[:i], s=2.,
@@ -173,22 +176,22 @@ class DoubleSpring:
             plt.axis('off')
         fig.set_size_inches(size/dpi, size/dpi, forward=True)
         fig.tight_layout()
-        plt.savefig(os.path.join(self.fig_cache, str(i).zfill(5) + '.png'), dpi=dpi)
+        plt.savefig(os.path.join(self.fig_dir, str(i).zfill(5) + '.png'), dpi=dpi)
         plt.clf()
         plt.close()
 
     def clear_figs(self):
         """
         """
-        figs = glob.glob(os.path.join(self.fig_cache, '*png'))
+        figs = glob.glob(os.path.join(self.fig_dir, '*png'))
         for f in figs:
             os.remove(f)
 
-    def make_movie(self, frame_rate=60):
+    def make_movie(self):
         """
         """
-        fname = 'dsp_{:.2f}_{:.2f}.mp4'.format(self.alpha_0, self.beta_0)
-        fname = os.path.join('_videos', fname)
-        figs = os.path.join(self.fig_cache, '%05d.png')
+        dt = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        self.fname = os.path.join(self.vid_dir, 'pend_{}.mp4'.format(dt))
+        figs = os.path.join(self.fig_dir, '%05d.png')
         os.system('ffmpeg -r {} -f image2 -s 1920x1080 -i {} -vcodec \
-                    libx264 -crf 25  -pix_fmt yuv420p {}'.format(frame_rate, figs, fname))
+                    libx264 -crf 25  -pix_fmt yuv420p {}'.format(self.fps, figs, self.fname))
