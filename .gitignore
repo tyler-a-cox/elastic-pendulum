@@ -3,3 +3,4 @@ __pycache__/
 _figs/
 _videos/
 .DS_Store
+pyelastic/_keys.py
