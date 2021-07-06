@@ -14,8 +14,10 @@ xcorr
         :alt: Documentation Status
 
 
-Twitter bot that generates and posts videos of a double elastic pendulum. 
 
+Twitter bot that generates and posts videos of a double elastic pendulum.
+
+![Example gif](https://github.com/tyler-a-cox/elastic-pendulum/raw/master/assets/pendulum.gif)
 
 * Free software: BSD license
 * Documentation: https://xcorr.readthedocs.io.
