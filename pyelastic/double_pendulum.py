@@ -4,6 +4,7 @@ import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
+from scipy.interpolate import interp1d
 from multiprocessing import cpu_count, Pool
 
 from ._keys import FIG_DIR, VID_DIR
@@ -23,6 +24,14 @@ class ElasticPendulum:
     """
 
     def __init__(self, alpha_0=None, beta_0=None, t_end=2, fps=24, cores=None):
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         self.g = 9.81
         if alpha_0 is not None:
             self.alpha_0 = alpha_0
@@ -194,6 +203,11 @@ class ElasticPendulum:
         self.x2 = self.x1 + array[:, 3] * np.sin(array[:, 1])
         self.y1 = -array[:, 2] * np.cos(array[:, 0])
         self.y2 = self.y1 - array[:, 3] * np.cos(array[:, 1])
+
+        self.fx1 = interp1d(np.arange(0, self.x1.shape[0]), self.x1)
+        self.fy1 = interp1d(np.arange(0, self.x1.shape[0]), self.y1)
+        self.fx2 = interp1d(np.arange(0, self.x1.shape[0]), self.x2)
+        self.fy2 = interp1d(np.arange(0, self.x1.shape[0]), self.y2)
         return self.x1, self.y1, self.x2, self.y2
 
     def _plot_settings(self, x):
@@ -246,7 +260,9 @@ class ElasticPendulum:
         if save_movie:
             self.make_movie()
 
-    def save_frame(self, i, dpi=100, trace=True, axes_off=True, size=800):
+    def save_frame(
+        self, i, dpi=100, trace=True, axes_off=True, size=700, interpolate=True, mult=3
+    ):
         """Animate
 
         Args:
@@ -270,24 +286,46 @@ class ElasticPendulum:
                 imax = imin + s + 1
                 alpha = (j / ns) ** 2
 
-                plt.plot(
-                    self.x1[imin:imax],
-                    self.y1[imin:imax],
-                    c="cyan",
-                    solid_capstyle="butt",
-                    lw=1.5,
-                    alpha=alpha,
-                    zorder=0,
-                )
-                plt.plot(
-                    self.x2[imin:imax],
-                    self.y2[imin:imax],
-                    c="purple",
-                    solid_capstyle="butt",
-                    lw=1.5,
-                    alpha=alpha,
-                    zorder=0,
-                )
+                if interpolate:
+                    ti = np.linspace(imin, imax, int((imax - imin) * mult))
+                    plt.plot(
+                        self.fx1(ti),
+                        self.fy1(ti),
+                        c="cyan",
+                        solid_capstyle="butt",
+                        lw=1.5,
+                        alpha=alpha,
+                        zorder=0,
+                    )
+                    plt.plot(
+                        self.fx2(ti),
+                        self.fy2(ti),
+                        c="magenta",
+                        solid_capstyle="butt",
+                        lw=1.5,
+                        alpha=alpha,
+                        zorder=0,
+                    )
+
+                else:
+                    plt.plot(
+                        self.x1[imin:imax],
+                        self.y1[imin:imax],
+                        c="cyan",
+                        solid_capstyle="butt",
+                        lw=1.5,
+                        alpha=alpha,
+                        zorder=0,
+                    )
+                    plt.plot(
+                        self.x2[imin:imax],
+                        self.y2[imin:imax],
+                        c="magenta",
+                        solid_capstyle="butt",
+                        lw=1.5,
+                        alpha=alpha,
+                        zorder=0,
+                    )
 
         # Plot lines between masses
         dist = 1 / np.sqrt(self.x1 ** 2 + self.y1 ** 2)
@@ -304,7 +342,7 @@ class ElasticPendulum:
         plt.plot(
             [self.x1[i], self.x2[i]],
             [self.y1[i], self.y2[i]],
-            color="purple",
+            color="magenta",
             zorder=1,
             lw=2,
         )

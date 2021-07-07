@@ -2,11 +2,11 @@ from pyelastic import double_pendulum
 import time
 
 start = time.time()
-pendulum = double_pendulum.ElasticPendulum(fps=60, t_end=10.0)
+pendulum = double_pendulum.ElasticPendulum(fps=24, t_end=25.0)
 _ = pendulum.integrate()
 
 for i in range(pendulum.x1.shape[0]):
-    pendulum.save_frame(i)
+    pendulum.save_frame(i, interpolate=False)
 
 print(time.time() - start)
 
