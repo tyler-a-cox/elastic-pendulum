@@ -4,9 +4,11 @@ import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
-from ._keys import FIG_DIR, VID_DIR
 from multiprocessing import cpu_count, Pool
 from .double_pendulum import ElasticPendulum
+
+VID_DIR = "/Users/tyler/Projects/elastic-pendulum/assets/"
+FIG_DIR = "/Users/tyler/Projects/elastic-pendulum/assets/"
 
 
 class Animation:

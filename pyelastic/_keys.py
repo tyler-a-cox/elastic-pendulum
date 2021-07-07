@@ -1,2 +1,4 @@
-VID_DIR = "/Users/tyler/Projects/elastic-pendulum/assets/"
-FIG_DIR = "/Users/tyler/Projects/elastic-pendulum/assets/"
+ACCESS_TOKEN = "1252326049142075392-rCngEx7Qek7RfvkfcpvhjCOOs2xU0d"
+ACCESS_SECRET_TOKEN = "Gn4AzUyTdMtvMzKG0dKw8YNlcgmI9woXabIJxAuF5LJ2r"
+API_KEY = "DptIIOJrBJrgFRxlV2t0Za4Zb"
+API_SECRET_KEY = "sgB6yJuu78SzhdZzlU5Q1JTDafhaeXCQEpX3ISg2JnSjOFdK5n"

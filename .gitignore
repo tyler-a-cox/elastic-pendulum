@@ -2,7 +2,7 @@
 __pycache__/
 .DS_Store
 
-
+pyelastic/_keys.py
 assets/*png
 assets/*mp4
 

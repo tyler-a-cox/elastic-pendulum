@@ -1,9 +1,19 @@
 import os
+import sys
 import tweepy
 from twython import Twython
 from .animate import Animation
 from .double_pendulum import ElasticPendulum
-from ._keys import API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN
+
+try:
+    from ._keys import API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN
+
+except ImportError:
+    API_KEY = sys.getenv("API_KEY")
+    API_SECRET_KEY = sys.getenv("API_SECRET_KEY")
+    ACCESS_TOKEN = sys.getenv("ACCESS_TOKEN")
+    ACCESS_SECRET_TOKEN = sys.getenv("ACCESS_SECRET_TOKEN")
+
 
 twitter = Twython(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN)
 

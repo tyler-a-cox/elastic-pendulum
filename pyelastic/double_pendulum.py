@@ -8,7 +8,8 @@ from scipy.integrate import solve_ivp
 from scipy.interpolate import interp1d
 from multiprocessing import cpu_count, Pool
 
-from ._keys import FIG_DIR, VID_DIR
+VID_DIR = "/Users/tyler/Projects/elastic-pendulum/assets/"
+FIG_DIR = "/Users/tyler/Projects/elastic-pendulum/assets/"
 
 plt.rc("text", usetex=False)
 plt.style.use("dark_background")
