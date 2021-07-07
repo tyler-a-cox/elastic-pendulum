@@ -1,3 +1,7 @@
 .ipynb_checkpoints
 __pycache__/
 .DS_Store
+
+
+assets/*png
+assets/*mp4

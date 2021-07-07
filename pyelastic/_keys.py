@@ -1,2 +1,2 @@
-VID_DIR = "/Users/tyler/"
-FIG_DIR = "/Users/tyler/Projects/elastic-pendulum"
+VID_DIR = "/Users/tyler/Projects/elastic-pendulum/assets/"
+FIG_DIR = "/Users/tyler/Projects/elastic-pendulum/assets/"

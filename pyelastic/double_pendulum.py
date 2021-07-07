@@ -8,6 +8,9 @@ from multiprocessing import cpu_count, Pool
 
 from ._keys import FIG_DIR, VID_DIR
 
+plt.rc("text", usetex=False)
+plt.style.use("dark_background")
+
 
 class ElasticPendulum:
     """Animate
@@ -254,17 +257,63 @@ class ElasticPendulum:
         """
         colors_0, colors_1 = self._plot_settings(self.x1[:i])
         fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
+
         if trace:
-            plt.scatter(self.x1[:i], self.y1[:i], color=colors_0[:i], s=2.0, zorder=0)
-            plt.scatter(self.x2[:i], self.y2[:i], color=colors_1[:i], s=2.0, zorder=0)
-        plt.plot([0, self.x1[i]], [0, self.y1[i]], color="red", zorder=1)
-        plt.plot(
-            [self.x1[i], self.x2[i]], [self.y1[i], self.y2[i]], color="blue", zorder=1
+            # plt.scatter(self.x1[:i], self.y1[:i], color=colors_0[:i], s=2.0, zorder=0)
+            # plt.scatter(self.x2[:i], self.y2[:i], color=colors_1[:i], s=2.0, zorder=0)
+            s = 4
+            ns = 50
+            for j in range(ns):
+                imin = i - (ns - j) * s
+                if imin < 0:
+                    continue
+                imax = imin + s + 1
+                alpha = (j / ns) ** 2
+
+                plt.plot(
+                    self.x1[imin:imax],
+                    self.y1[imin:imax],
+                    c="cyan",
+                    solid_capstyle="butt",
+                    lw=1.5,
+                    alpha=alpha,
+                    zorder=0,
+                )
+                plt.plot(
+                    self.x2[imin:imax],
+                    self.y2[imin:imax],
+                    c="purple",
+                    solid_capstyle="butt",
+                    lw=1.5,
+                    alpha=alpha,
+                    zorder=0,
+                )
+
+        # Plot lines between masses
+        dist = 1 / np.sqrt(self.x1 ** 2 + self.y1 ** 2)
+        thickness = (
+            (dist[i] - dist.min() + dist.mean()) / (dist.max() - dist.min()) * 2.5
         )
+
+        plt.plot([0, self.x1[i]], [0, self.y1[i]], color="cyan", zorder=1, lw=2)
+
+        dist = 1 / np.sqrt((self.x1 - self.x2) ** 2 + (self.y1 - self.y2) ** 2)
+        thickness = (
+            (dist[i] - dist.min() + dist.mean()) / (dist.max() - dist.min()) * 2.5
+        )
+        plt.plot(
+            [self.x1[i], self.x2[i]],
+            [self.y1[i], self.y2[i]],
+            color="purple",
+            zorder=1,
+            lw=2,
+        )
+
+        # Plot points
         plt.scatter(
             [0, self.x1[i], self.x2[i]],
             [0, self.y1[i], self.y2[i]],
-            color=((0, 0, 0, 1), (1, 0, 0, 1), (0, 0, 1, 1)),
+            color=((0, 1, 1, 1), (0, 1, 1, 1), (1, 0, 1, 1)),
             zorder=2,
         )
         m1 = np.max([self.x1, self.x2])
