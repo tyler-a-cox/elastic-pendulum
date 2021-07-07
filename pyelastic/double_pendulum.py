@@ -57,6 +57,8 @@ class ElasticPendulum:
         self.b0 = 1.0
         self.a1 = 0.0
         self.b1 = 0.0
+        self.ns = 50
+        self.s = 4
         self.t_end = t_end
 
         #
@@ -378,6 +380,9 @@ class ElasticPendulum:
         self.line2.set_data([], [])
         self.dot2.set_data([], [])
         self.dot3.set_data([], [])
+        for j in range(self.ns):
+            self.trace_lc1[j].set_data([], [])
+            self.trace_lc2[j].set_data([], [])
         return self.line1, self.dot1, self.line2, self.dot2, self.dot3
 
     def animate(self, i):
@@ -390,6 +395,18 @@ class ElasticPendulum:
         )
         self.dot2.set_data(self.x2[i], self.y2[i])
         self.dot3.set_data(0, 0)
+
+        for j in range(self.ns):
+            imin = i - (self.ns - j) * self.s
+            if imin < 0:
+                continue
+            imax = imin + self.s + 1
+            alpha = (j / self.ns) ** 2
+            self.trace_lc1[j].set_data(self.x1[imin:imax], self.y1[imin:imax])
+            self.trace_lc1[j].set_alpha(alpha)
+            self.trace_lc2[j].set_data(self.x2[imin:imax], self.y2[imin:imax])
+            self.trace_lc2[j].set_alpha(alpha)
+
         return self.line1, self.dot1, self.line2, self.dot2, self.dot3
 
     def main_animate(self, size=800, dpi=100):
@@ -411,6 +428,30 @@ class ElasticPendulum:
         (self.line2,) = ax.plot([], [], lw=2, color="magenta", zorder=0)
         (self.dot2,) = ax.plot([], [], color="magenta", marker="o", zorder=2)
         (self.dot3,) = ax.plot([], [], color="cyan", marker="o", zorder=2)
+        self.trace_lc1 = []
+        self.trace_lc2 = []
+        for _ in range(self.ns):
+            (trace1,) = ax.plot(
+                [],
+                [],
+                c="cyan",
+                solid_capstyle="butt",
+                lw=1.5,
+                alpha=0,
+                zorder=0,
+            )
+            (trace2,) = ax.plot(
+                [],
+                [],
+                c="magenta",
+                solid_capstyle="butt",
+                lw=1.5,
+                alpha=0,
+                zorder=0,
+            )
+            self.trace_lc1.append(trace1)
+            self.trace_lc2.append(trace2)
+
         self.fig.set_size_inches(size / dpi, size / dpi, forward=True)
         self.fig.tight_layout()
 
@@ -418,12 +459,15 @@ class ElasticPendulum:
             self.fig,
             self.animate,
             init_func=self.init,
-            frames=360,
+            frames=self.x1.shape[0],
             interval=10,
             blit=True,
         )
 
-        anim.save("basic_animation.mp4", fps=60, extra_args=["-vcodec", "libx264"])
+        # anim.save(
+        #    "basic_animation.mp4", fps=self.fps, extra_args=["-vcodec", "libx264"]
+        # )
+        anim.save("example_sim.gif", fps=self.fps, writer="Pillow")
 
     def clear_figs(self):
         """Animate

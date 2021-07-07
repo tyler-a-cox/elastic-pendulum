@@ -2,7 +2,7 @@ from pyelastic import double_pendulum
 import time
 
 start = time.time()
-pendulum = double_pendulum.ElasticPendulum(fps=24, t_end=25.0)
+pendulum = double_pendulum.ElasticPendulum(fps=24, t_end=20)
 _ = pendulum.integrate()
 
 # for i in range(pendulum.x1.shape[0]):
