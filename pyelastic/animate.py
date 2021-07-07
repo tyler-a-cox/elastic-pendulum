@@ -10,7 +10,14 @@ from .double_pendulum import ElasticPendulum
 
 
 class Animation:
-    """ """
+    """Animate
+
+    Args:
+        save_movie : boolean, default=True
+
+    Returns:
+        None
+    """
 
     def __init__(
         self, alpha=None, beta=None, seed=None, cores=None, fps=30, pendulums=1
@@ -40,6 +47,14 @@ class Animation:
             self.cores = cpu_count()
 
     def _plot_settings(self, x):
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         colors = np.zeros((x.shape[0], 4))
         colors[:, 2] = 1
         alpha = np.linspace(0.2, 0.8, x.shape[0]) ** 2.0
@@ -47,7 +62,14 @@ class Animation:
         return colors
 
     def plot_frame(self, d, i, trace=True, axes_off=True):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         colors = self._plot_settings(d.x1[:i])
 
         if trace:
@@ -80,13 +102,27 @@ class Animation:
         )
 
     def clear_figs(self):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         figs = glob.glob(os.path.join(self.fig_dir, "*png"))
         for f in figs:
             os.remove(f)
 
     def main(self, i):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         fig = plt.figure(
             figsize=(self.size / self.dpi, self.size / self.dpi), dpi=self.dpi
         )
@@ -104,7 +140,14 @@ class Animation:
         plt.close()
 
     def save_movie(self):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         dt = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         self.fname = os.path.join(self.vid_dir, "pend_{}.mp4".format(dt))
         figs = os.path.join(self.fig_dir, "%05d.png")
@@ -116,6 +159,14 @@ class Animation:
         )
 
     def animate(self, save_movie=True):
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         self.pendulums = []
 
         for b in self.beta:

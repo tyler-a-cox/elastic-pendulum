@@ -10,7 +10,14 @@ from ._keys import FIG_DIR, VID_DIR
 
 
 class ElasticPendulum:
-    """ """
+    """Animate
+
+    Args:
+        save_movie : boolean, default=True
+
+    Returns:
+        None
+    """
 
     def __init__(self, alpha_0=None, beta_0=None, t_end=2, fps=24, cores=None):
         self.g = 9.81
@@ -56,7 +63,14 @@ class ElasticPendulum:
             self.cores = cores
 
     def _alpha_pp(self, t, Y):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         # Y[0] = alpha_1, Y[1] = alpha_0
         alpha_0, alpha_1, beta_0, beta_1, a0, a1, b0, _ = Y
         return -(
@@ -67,7 +81,14 @@ class ElasticPendulum:
         ) / (self.m1 * a0)
 
     def _beta_pp(self, t, Y):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         # Y[0] = beta_1, Y[1] = beta_0
         alpha_0, alpha_1, beta_0, beta_1, a0, a1, b0, b1 = Y
         return (
@@ -77,7 +98,14 @@ class ElasticPendulum:
         ) / (self.m1 * b0)
 
     def _a_pp(self, t, Y):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         # Y[0] = a1, Y[1] = a0
         alpha_0, alpha_1, beta_0, beta_1, a0, a1, b0, b1 = Y
         return (
@@ -89,7 +117,14 @@ class ElasticPendulum:
         ) / self.m1
 
     def _b_pp(self, t, Y):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         # Y[0] = b1, Y[1] = b0
         alpha_0, alpha_1, beta_0, beta_1, a0, a1, b0, b1 = Y
         return (
@@ -100,7 +135,14 @@ class ElasticPendulum:
         ) / (self.m1 * self.m2)
 
     def _inte(self, t, Y):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         return [
             Y[1],
             self._alpha_pp(t, Y),
@@ -113,7 +155,14 @@ class ElasticPendulum:
         ]
 
     def integrate(self, method="RK45"):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         Y0 = [
             self.alpha_0,
             self.alpha_1,
@@ -130,7 +179,14 @@ class ElasticPendulum:
         return self.cartesian(self.solution.y[[0, 2, 4, 6]].T)
 
     def cartesian(self, array):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         self.x1 = array[:, 2] * np.sin(array[:, 0])
         self.x2 = self.x1 + array[:, 3] * np.sin(array[:, 1])
         self.y1 = -array[:, 2] * np.cos(array[:, 0])
@@ -138,7 +194,14 @@ class ElasticPendulum:
         return self.x1, self.y1, self.x2, self.y2
 
     def _plot_settings(self, x):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         colors_0 = np.zeros((x.shape[0], 4))
         colors_1 = np.zeros((x.shape[0], 4))
         alpha = np.linspace(0.4, 0.8, x.shape[0]) ** 2.0
@@ -149,7 +212,14 @@ class ElasticPendulum:
         return colors_0, colors_1
 
     def plot_spring(self):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         colors_0, colors_1 = self._plot_settings(self.x1)
 
         # Plot
@@ -159,7 +229,14 @@ class ElasticPendulum:
         plt.show()
 
     def animate_spring(self, save_movie=True):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         self.clear_figs()
         pool = Pool(processes=self.cores)
         pool.map(self.save_frame, np.arange(self.x1.shape[0]))
@@ -167,7 +244,14 @@ class ElasticPendulum:
             self.make_movie()
 
     def save_frame(self, i, dpi=100, trace=True, axes_off=True, size=800):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         colors_0, colors_1 = self._plot_settings(self.x1[:i])
         fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
         if trace:
@@ -200,13 +284,27 @@ class ElasticPendulum:
         plt.close()
 
     def clear_figs(self):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         figs = glob.glob(os.path.join(self.fig_dir, "*png"))
         for f in figs:
             os.remove(f)
 
     def make_movie(self):
-        """ """
+        """Animate
+
+        Args:
+            save_movie : boolean, default=True
+
+        Returns:
+            None
+        """
         dt = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         self.fname = os.path.join(self.vid_dir, "pend_{}.mp4".format(dt))
         figs = os.path.join(self.fig_dir, "%05d.png")

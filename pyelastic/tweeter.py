@@ -14,6 +14,14 @@ twitter = Twython(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN)
 
 
 def update_status(filename=None):
+    """Animate
+
+    Args:
+        save_movie : boolean, default=True
+
+    Returns:
+        None
+    """
     if filename is None:
         pendulum = Animation()
         pendulum.animate()
@@ -21,6 +29,14 @@ def update_status(filename=None):
 
 
 def media(filename=None, number=1):
+    """Animate
+
+    Args:
+        save_movie : boolean, default=True
+
+    Returns:
+        None
+    """
     if filename is None and number <= 1:
         pendulum = ElasticPendulum(fps=24, t_end=15.0)
         _ = pendulum.integrate()
