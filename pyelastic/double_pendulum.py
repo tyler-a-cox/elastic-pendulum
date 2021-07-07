@@ -3,6 +3,7 @@ import glob
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import animation
 from scipy.integrate import solve_ivp
 from scipy.interpolate import interp1d
 from multiprocessing import cpu_count, Pool
@@ -369,6 +370,60 @@ class ElasticPendulum:
         plt.savefig(os.path.join(self.fig_dir, str(i).zfill(5) + ".png"), dpi=dpi)
         plt.clf()
         plt.close()
+
+    def init(self):
+        """ """
+        self.line1.set_data([], [])
+        self.dot1.set_data([], [])
+        self.line2.set_data([], [])
+        self.dot2.set_data([], [])
+        self.dot3.set_data([], [])
+        return self.line1, self.dot1, self.line2, self.dot2, self.dot3
+
+    def animate(self, i):
+        """ """
+        self.line1.set_data([0, self.x1[i]], [0, self.y1[i]])
+        self.dot1.set_data(self.x1[i], self.y1[i])
+        self.line2.set_data(
+            [self.x1[i], self.x2[i]],
+            [self.y1[i], self.y2[i]],
+        )
+        self.dot2.set_data(self.x2[i], self.y2[i])
+        self.dot3.set_data(0, 0)
+        return self.line1, self.dot1, self.line2, self.dot2, self.dot3
+
+    def main_animate(self, size=800, dpi=100):
+        """ """
+        self.fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
+        m1 = np.max([self.x1, self.x2])
+        m2 = np.max([self.y1, self.y2])
+        if m1 < 0:
+            m1 = 2
+        if m2 < 0:
+            m2 = 2
+
+        ax = plt.axes(
+            xlim=[np.min([self.x1, self.x2]), m1], ylim=[np.min([self.y1, self.y2]), m2]
+        )
+        ax.axis("off")
+        (self.line1,) = ax.plot([], [], lw=2, color="cyan", zorder=0)
+        (self.dot1,) = ax.plot([], [], color="cyan", marker="o", zorder=2)
+        (self.line2,) = ax.plot([], [], lw=2, color="magenta", zorder=0)
+        (self.dot2,) = ax.plot([], [], color="magenta", marker="o", zorder=2)
+        (self.dot3,) = ax.plot([], [], color="cyan", marker="o", zorder=2)
+        self.fig.set_size_inches(size / dpi, size / dpi, forward=True)
+        self.fig.tight_layout()
+
+        anim = animation.FuncAnimation(
+            self.fig,
+            self.animate,
+            init_func=self.init,
+            frames=360,
+            interval=10,
+            blit=True,
+        )
+
+        anim.save("basic_animation.mp4", fps=60, extra_args=["-vcodec", "libx264"])
 
     def clear_figs(self):
         """Animate

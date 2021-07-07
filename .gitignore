@@ -5,3 +5,5 @@ __pycache__/
 
 assets/*png
 assets/*mp4
+
+notebooks/
