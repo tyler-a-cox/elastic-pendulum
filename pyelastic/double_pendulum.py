@@ -213,7 +213,7 @@ class ElasticPendulum:
         self.fy2 = interp1d(np.arange(0, self.x1.shape[0]), self.y2)
         return self.x1, self.y1, self.x2, self.y2
 
-    def init(self):
+    def single_init(self):
         """ """
         self.line1.set_data([], [])
         self.dot1.set_data([], [])
@@ -225,7 +225,7 @@ class ElasticPendulum:
             self.trace_lc2[j].set_data([], [])
         return self.line1, self.dot1, self.line2, self.dot2, self.dot3
 
-    def animate(self, i):
+    def single_animate(self, i):
         """ """
         self.line1.set_data([0, self.x1[i]], [0, self.y1[i]])
         self.dot1.set_data(self.x1[i], self.y1[i])
@@ -275,7 +275,7 @@ class ElasticPendulum:
                 [],
                 [],
                 c="cyan",
-                solid_capstyle="butt",
+                solid_capstyle="round",
                 lw=1.5,
                 alpha=0,
                 zorder=0,
@@ -284,7 +284,7 @@ class ElasticPendulum:
                 [],
                 [],
                 c="magenta",
-                solid_capstyle="butt",
+                solid_capstyle="round",
                 lw=1.5,
                 alpha=0,
                 zorder=0,
@@ -297,11 +297,12 @@ class ElasticPendulum:
 
         anim = animation.FuncAnimation(
             self.fig,
-            self.animate,
-            init_func=self.init,
+            self.single_animate,
+            init_func=self.single_init,
             frames=self.x1.shape[0],
             interval=0,
             blit=True,
+            cache_frame_data=False,
         )
 
         # anim.save(
