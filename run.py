@@ -1,21 +1,15 @@
-from pyelastic import double_pendulum
+from pyelastic.animate import Animation
 import time
+import pylab as plt
 
 timings = {}
 
 start = time.time()
-pendulum = double_pendulum.ElasticPendulum(fps=24, t_end=10)
-_ = pendulum.integrate()
-endint = time.time()
-timings["integration"] = endint - start
+anim = Animation(fps=30, tend=10, npends=5, offset=0.0001)
+anim.main_n_animate(cmap=plt.cm.inferno)
 
-# for i in range(pendulum.x1.shape[0]):
-#    pendulum.save_frame(i, interpolate=False)
-pendulum.main_animate()
-anttime = time.time()
-timings["animation"] = anttime - endint
-print("Integration time", timings["integration"])
-print("Animation time", timings["animation"])
-print("FPS:", 240 / timings["animation"])
+
+print("Animation time", time.time() - start)
+print("FPS:", 300 / (time.time() - start))
 
 # pendulum.make_movie()

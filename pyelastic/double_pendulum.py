@@ -3,7 +3,6 @@ import glob
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import animation
 from scipy.integrate import solve_ivp
 from scipy.interpolate import interp1d
 from multiprocessing import cpu_count, Pool
@@ -43,12 +42,6 @@ class ElasticPendulum:
             self.beta_0 = beta_0
         else:
             self.beta_0 = np.random.uniform(-np.pi, np.pi)
-
-        self.fig_dir = FIG_DIR
-        self.vid_dir = VID_DIR
-
-        if not os.path.exists(self.fig_dir):
-            os.mkdir(self.fig_dir)
 
         self.alpha_1 = 0.0
         self.beta_1 = 0.0
