@@ -33,6 +33,7 @@ class Animation:
         npends=1,
         tend=15,
         offset=0.05,
+        filename="post.gif",
     ):
         self.dpi = 100
         self.size = 712
@@ -41,6 +42,7 @@ class Animation:
         self.s = 4
         self.tend = tend
         self.npends = npends
+        self.filename = os.path.join(VID_DIR, filename)
 
         if seed:
             np.random.seed(seed)
@@ -163,11 +165,11 @@ class Animation:
         )
 
         if format == "gif":
-            anim.save(os.path.join(VID_DIR, "sim.gif"), fps=self.fps)
+            anim.save(self.filename, fps=self.fps)
 
         else:
             anim.save(
-                os.path.join(VID_DIR, "sim.mp4"),
+                self.filename,
                 fps=self.fps,
                 extra_args=["-vcodec", "libx264"],
             )
@@ -241,7 +243,7 @@ class Animation:
         ax.axis("off")
 
         # Check if this is actually a colormap
-        colors = cmap(np.linspace(0.5, 1, self.npends))
+        colors = cmap(np.linspace(0.35, 1, self.npends))
 
         (self.anchor,) = ax.plot([], [], color="darkslategrey", marker="o", zorder=2)
         self.traces = []
@@ -287,11 +289,11 @@ class Animation:
         )
 
         if format == "gif":
-            anim.save(os.path.join(VID_DIR, "sim.gif"), fps=self.fps)
+            anim.save(self.filename, fps=self.fps)
 
         else:
             anim.save(
-                os.path.join(VID_DIR, "sim.mp4"),
+                self.filename,
                 fps=self.fps,
                 extra_args=["-vcodec", "libx264"],
             )
