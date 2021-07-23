@@ -5,5 +5,5 @@ works by integrating the Lagrangian equations of motion for a two-dimensional do
 spring pendulum.
 
 <p align="center">
-  <img src="assets/resized_example.gif" alt="animated" />
+  <img src="assets/sim.gif" alt="animated" />
 </p>
