@@ -4,6 +4,8 @@ __pycache__/
 
 pyelastic/_keys.py
 assets/*png
-assets/*mp4
-
 notebooks/
+
+dist
+build
+*.egg-info

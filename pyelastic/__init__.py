@@ -1,2 +1,2 @@
 from .animate import *
-from .double_pendulum import ElasticPendulum
+from .pendulum import ElasticPendulum

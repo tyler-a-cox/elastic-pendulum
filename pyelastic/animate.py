@@ -5,23 +5,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
 from scipy.integrate import solve_ivp
-from multiprocessing import cpu_count, Pool
-from .double_pendulum import ElasticPendulum
+from .pendulum import ElasticPendulum
 
-VID_DIR = "assets"
-plt.rc("text", usetex=False)
-plt.style.use("dark_background")
+ASSETS = os.path.abspath(".")
 
 
 class Animation:
-    """Animate
-
-    Args:
-        save_movie : boolean, default=True
-
-    Returns:
-        None
-    """
+    """ """
 
     def __init__(
         self,
@@ -33,8 +23,12 @@ class Animation:
         npends=1,
         tend=15,
         offset=0.05,
-        filename="post.gif",
+        filename="post.mp4",
     ):
+        """ """
+        plt.rc("text", usetex=False)
+        plt.style.use("dark_background")
+
         self.dpi = 100
         self.size = 712
         self.fps = fps
@@ -42,7 +36,7 @@ class Animation:
         self.s = 4
         self.tend = tend
         self.npends = npends
-        self.filename = os.path.join(VID_DIR, filename)
+        self.filename = os.path.join(ASSETS, filename)
 
         if seed:
             np.random.seed(seed)
@@ -57,11 +51,6 @@ class Animation:
         else:
             beta = np.random.uniform(-np.pi, np.pi)
             self.beta = np.linspace(beta, beta + offset, npends)
-
-        if cores:
-            self.cores = cores
-        else:
-            self.cores = cpu_count()
 
     def single_init(self):
         """ """
@@ -103,7 +92,7 @@ class Animation:
 
         return self.line1, self.dot1, self.line2, self.dot2, self.dot3
 
-    def main_animate(self, size=800, dpi=100, format="gif"):
+    def main_animate(self, size=712, dpi=100, format="mp4"):
         """ """
         assert format in ["gif", "mp4"], "Not a supported format"
         self.pendulum = ElasticPendulum(fps=self.fps, t_end=self.tend)
@@ -213,7 +202,7 @@ class Animation:
 
         return (self.linetop[0],)
 
-    def main_n_animate(self, size=800, dpi=100, format="gif", cmap=plt.cm.inferno):
+    def main_n_animate(self, size=712, dpi=100, format="mp4", cmap=plt.cm.inferno):
         """ """
         assert format in ["gif", "mp4"], "Not a supported format"
         self.pendulums = []
@@ -267,7 +256,7 @@ class Animation:
                     [],
                     c=colors[pi],
                     solid_capstyle="round",
-                    lw=1.5,
+                    lw=2,
                     alpha=0,
                     zorder=0,
                 )
