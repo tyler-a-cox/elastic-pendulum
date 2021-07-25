@@ -5,7 +5,7 @@ on:
     - cron: '30 6,12,18 * * *'
 
 jobs:
-  londonmapbot-post:
+  twitterbot-post:
     runs-on: macOS-latest
     env:
       API_KEY: ${{ secrets.API_KEY }}
