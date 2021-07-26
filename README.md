@@ -9,17 +9,17 @@ spring pendulum.
 </p>
 
 <p align="center">
-  <img src="assets/lagrangian.png" alt="animated" />
+  <img src="assets/lagrangian.png" alt="animated" width=200/>
 </p>
 
 <p align="center">
-  <img src="assets/kinetic.png" alt="animated" />
+  <img src="assets/kinetic.png" alt="animated" width=200/>
 </p>
 
 <p align="center">
-  <img src="assets/potential.png" alt="animated" />
+  <img src="assets/potential.png" alt="animated" width=200/>
 </p>
 
 <p align="center">
-  <img src="assets/euler-lagrange.png" alt="animated" />
+  <img src="assets/euler-lagrange.png" alt="animated" width=200/>
 </p>
