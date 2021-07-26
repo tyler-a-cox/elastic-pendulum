@@ -5,21 +5,21 @@ works by integrating the Lagrangian equations of motion for a two-dimensional do
 spring pendulum.
 
 <p align="center">
-  <img src="assets/sim.gif" alt="animated" />
+  <img src="assets/sim.gif" alt="animated" width=500/>
 </p>
 
 <p align="center">
-  <img src="assets/lagrangian.png" alt="animated" width=200/>
+  <img src="assets/lagrangian.png" alt="animated" height=30/>
 </p>
 
 <p align="center">
-  <img src="assets/kinetic.png" alt="animated" width=200/>
+  <img src="assets/kinetic.png" alt="animated" height=50/>
 </p>
 
 <p align="center">
-  <img src="assets/potential.png" alt="animated" width=200/>
+  <img src="assets/potential.png" alt="animated" height=50/>
 </p>
 
 <p align="center">
-  <img src="assets/euler-lagrange.png" alt="animated" width=200/>
+  <img src="assets/euler-lagrange.png" alt="animated" height=50/>
 </p>
