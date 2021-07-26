@@ -52,7 +52,7 @@ def media(filename=None, number=1, clean=False):
         pendulum.main_animate()
         status = "Starting angles {} degrees and {} degrees\n\n".format(
             np.round(np.rad2deg(pendulum.alpha), 2),
-            np.round(np.rad2deg(pendulum.beta), 2),
+            np.round(np.rad2deg(pendulum.beta[0]), 2),
         )
         status += tags
         filename = pendulum.filename
