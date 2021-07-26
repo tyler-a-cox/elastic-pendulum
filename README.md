@@ -7,3 +7,19 @@ spring pendulum.
 <p align="center">
   <img src="assets/sim.gif" alt="animated" />
 </p>
+
+<p align="center">
+  <img src="assets/lagrangian.png" alt="animated" />
+</p>
+
+<p align="center">
+  <img src="assets/kinetic.png" alt="animated" />
+</p>
+
+<p align="center">
+  <img src="assets/potential.png" alt="animated" />
+</p>
+
+<p align="center">
+  <img src="assets/euler-lagrange.png" alt="animated" />
+</p>
