@@ -232,7 +232,12 @@ class Animation:
             if np.max([d.y1, d.y2]) > maxi_y:
                 maxi_y = np.max([d.y1, d.y2])
 
-        self.fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
+        if isinstance(size, tuple):
+            self.fig = plt.figure(figsize=(size[0] / dpi, size[1] / dpi), dpi=dpi)
+
+        else:
+            self.fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
+
         ax = plt.axes(xlim=[mini_x, maxi_x], ylim=[mini_y, maxi_y])
         ax.axis("off")
 
@@ -273,7 +278,11 @@ class Animation:
 
             self.traces.append(traces)
 
-        self.fig.set_size_inches(size / dpi, size / dpi, forward=True)
+        if isinstance(size, tuple):
+            self.fig.set_size_inches(size[0] / dpi, size[1] / dpi, forward=True)
+
+        else:
+            self.fig.set_size_inches(size / dpi, size / dpi, forward=True)
         self.fig.tight_layout()
 
         anim = animation.FuncAnimation(
