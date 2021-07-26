@@ -5,6 +5,7 @@ import cmasher as cm
 import pylab as plt
 from twython import Twython
 from .animate import Animation
+from .settings import COLORMAPS
 
 try:
     from ._keys import API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN
@@ -15,20 +16,6 @@ except ImportError:
     ACCESS_TOKEN = sys.getenv("ACCESS_TOKEN")
     ACCESS_SECRET_TOKEN = sys.getenv("ACCESS_SECRET_TOKEN")
 
-cmaps = [
-    cm.neon,
-    cm.bubblegum,
-    cm.voltage,
-    cm.horizon,
-    cm.fall,
-    cm.sunburst,
-    cm.flamingo,
-    cm.eclipse,
-    cm.lilac,
-    cm.lavender,
-    cm.sepia,
-    plt.cm.jet,
-]
 
 hasttags = ["#science", "#scicomm", "#physics", "#sciart"]
 tags = " ".join(hasttags)
@@ -61,7 +48,7 @@ def media(filename=None, number=1, clean=False):
         None
     """
     if filename is None and number <= 1:
-        pendulum = Animation(fps=60, tend=10.0)
+        pendulum = Animation(fps=60, tend=20.0)
         pendulum.main_animate()
         status = "Starting angles {} degrees and {} degrees\n\n".format(
             np.round(np.rad2deg(pendulum.alpha), 2),
@@ -71,8 +58,8 @@ def media(filename=None, number=1, clean=False):
         filename = pendulum.filename
 
     elif filename is None and number > 1:
-        cmap = np.random.choice(cmaps)
-        offset = np.random.uniform(1e-3, 1e-2)
+        cmap = np.random.choice(COLORMAPS)
+        offset = np.random.uniform(1e-3, 0.1)
         pendulum = Animation(fps=60, tend=20.0, npends=number, offset=offset)
         status = "6 indentical double pendulums separated by {} degrees\n\n".format(
             np.round(np.rad2deg(offset), 4)

@@ -5,11 +5,6 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 from scipy.interpolate import interp1d
 
-VID_DIR = "assets"
-
-plt.rc("text", usetex=False)
-plt.style.use("dark_background")
-
 
 class ElasticPendulum:
     """Animate
