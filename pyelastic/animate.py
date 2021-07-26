@@ -160,7 +160,7 @@ class Animation:
             anim.save(
                 self.filename,
                 fps=self.fps,
-                extra_args=["-vcodec", "libx264"],
+                # extra_args=["-vcodec", "libx264"],
             )
 
     def n_init(self):
@@ -284,5 +284,5 @@ class Animation:
             anim.save(
                 self.filename,
                 fps=self.fps,
-                extra_args=["-vcodec", "libx264"],
+                # extra_args=["-vcodec", "libx264"],
             )
