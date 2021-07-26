@@ -5,7 +5,7 @@ works by integrating the Lagrangian equations of motion for a two-dimensional do
 spring pendulum.
 
 <p align="center">
-  <img src="assets/sim.gif" alt="animated" width=500/>
+  <img src="assets/sim.gif" alt="animated" width=1000/>
 </p>
 
 <p align="center">
