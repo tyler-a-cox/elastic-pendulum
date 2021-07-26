@@ -21,7 +21,7 @@ class ElasticPendulum:
         None
     """
 
-    def __init__(self, alpha_0=None, beta_0=None, t_end=2, fps=24, cores=None):
+    def __init__(self, alpha_0=None, beta_0=None, t_end=2, fps=24, k1=None, k2=None):
         """Animate
 
         Args:
@@ -55,8 +55,19 @@ class ElasticPendulum:
         self.l2 = 1.0
         self.m1 = 1.0
         self.m2 = 1.0
-        self.k1 = np.random.uniform(35, 55)
-        self.k2 = np.random.uniform(35, 55)
+
+        if k1 is None:
+            self.k1 = np.random.uniform(35, 55)
+
+        else:
+            self.k1 = k1
+
+        if k2 is None:
+            self.k2 = np.random.uniform(35, 55)
+
+        else:
+            self.k2 = k2
+
         self.fps = fps
         self.dt = 1.0 / self.fps
 

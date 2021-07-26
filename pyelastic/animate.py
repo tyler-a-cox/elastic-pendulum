@@ -206,10 +206,15 @@ class Animation:
         """ """
         assert format in ["gif", "mp4"], "Not a supported format"
         self.pendulums = []
-
+        k1, k2 = np.random.uniform(35, 55), np.random.uniform(35, 55)
         for b in self.beta:
             ds = ElasticPendulum(
-                fps=self.fps, t_end=self.tend, alpha_0=self.alpha, beta_0=b
+                fps=self.fps,
+                t_end=self.tend,
+                alpha_0=self.alpha,
+                beta_0=b,
+                k1=k1,
+                k2=k2,
             )
             _ = ds.integrate()
             self.pendulums.append(ds)
@@ -232,9 +237,11 @@ class Animation:
         ax.axis("off")
 
         # Check if this is actually a colormap
-        colors = cmap(np.linspace(0.35, 1, self.npends))
+        colors = cmap(np.linspace(0.25, 1, self.npends))
 
-        (self.anchor,) = ax.plot([], [], color="darkslategrey", marker="o", zorder=2)
+        (self.anchor,) = ax.plot(
+            [], [], color=(51 / 255, 59 / 255, 71 / 255, 1), marker="o", zorder=2
+        )
         self.traces = []
         self.dots = []
         self.lines = []
@@ -242,8 +249,10 @@ class Animation:
         self.dotmid = []
         for pi in range(self.npends):
             traces = []
-            (linetop,) = ax.plot([], [], lw=2, color="darkslategrey", zorder=0)
-            (dotmid,) = ax.plot([], [], color="darkslategrey", marker="o", zorder=2)
+            (linetop,) = ax.plot(
+                [], [], lw=2, color=(51 / 255, 59 / 255, 71 / 255, 1), zorder=0
+            )
+            (dotmid,) = ax.plot([], [], color=colors[pi], marker="o", zorder=2)
             (dot,) = ax.plot([], [], color=colors[pi], marker="o", zorder=2)
             (line,) = ax.plot([], [], color=colors[pi], lw=2, zorder=2)
             self.dots.append(dot)

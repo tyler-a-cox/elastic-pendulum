@@ -24,8 +24,14 @@ cmaps = [
     cm.sunburst,
     cm.flamingo,
     cm.eclipse,
+    cm.lilac,
+    cm.lavender,
+    cm.sepia,
     plt.cm.jet,
 ]
+
+hasttags = ["#science", "#scicomm", "#physics", "#sciart"]
+tags = " ".join(hasttags)
 
 twitter = Twython(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN)
 
@@ -57,23 +63,21 @@ def media(filename=None, number=1, clean=False):
     if filename is None and number <= 1:
         pendulum = Animation(fps=60, tend=10.0)
         pendulum.main_animate()
-        status = (
-            "Starting angles {} degrees and {} degrees\n\n#science #physics".format(
-                np.round(np.rad2deg(pendulum.alpha), 2),
-                np.round(np.rad2deg(pendulum.beta), 2),
-            )
+        status = "Starting angles {} degrees and {} degrees\n\n".format(
+            np.round(np.rad2deg(pendulum.alpha), 2),
+            np.round(np.rad2deg(pendulum.beta), 2),
         )
+        status += tags
         filename = pendulum.filename
 
     elif filename is None and number > 1:
         cmap = np.random.choice(cmaps)
-        offset = np.random.uniform(1e-5, 1e-4)
-        pendulum = Animation(fps=60, tend=10.0, npends=number, offset=offset)
-        status = (
-            "6 double pendulums separated by {} degrees\n\n#science #physics".format(
-                np.round(np.rad2deg(offset), 4)
-            )
+        offset = np.random.uniform(1e-3, 1e-2)
+        pendulum = Animation(fps=60, tend=20.0, npends=number, offset=offset)
+        status = "6 indentical double pendulums separated by {} degrees\n\n".format(
+            np.round(np.rad2deg(offset), 4)
         )
+        status += tags
         pendulum.main_n_animate(cmap=cmap)
         filename = pendulum.filename
 
