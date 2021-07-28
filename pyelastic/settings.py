@@ -1,5 +1,7 @@
+import os
 import pylab as plt
 import cmasher as cm
+
 
 # Plot Settings
 plt.rc("text", usetex=False)
