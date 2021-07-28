@@ -16,10 +16,6 @@ except ImportError:
     ACCESS_TOKEN = sys.getenv("ACCESS_TOKEN")
     ACCESS_SECRET_TOKEN = sys.getenv("ACCESS_SECRET_TOKEN")
 
-
-hasttags = ["#science", "#scicomm", "#physics", "#sciart"]
-tags = " ".join(hasttags)
-
 twitter = Twython(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN)
 
 

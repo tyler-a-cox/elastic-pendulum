@@ -18,7 +18,6 @@ class Animation:
         alpha=None,
         beta=None,
         seed=None,
-        cores=None,
         fps=24,
         npends=1,
         tend=15,
@@ -26,9 +25,6 @@ class Animation:
         filename="post.mp4",
     ):
         """ """
-        plt.rc("text", usetex=False)
-        plt.style.use("dark_background")
-
         self.dpi = 100
         self.size = 712
         self.fps = fps

@@ -18,3 +18,10 @@ COLORMAPS = [
     cm.sepia,
     plt.cm.jet,
 ]
+
+# Twitter Settings
+hasttags = ["#science", "#scicomm", "#physics", "#sciart"]
+tags = " ".join(hasttags)
+
+# Physics Settings
+GRAVITY = 9.81
