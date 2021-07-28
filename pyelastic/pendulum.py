@@ -58,7 +58,7 @@ class ElasticPendulum:
             "g": GRAVITY,
         }
 
-        for (prop, default) in prop_defaults.iteritems():
+        for (prop, default) in prop_defaults.items():
             setattr(self, prop, kwargs.get(prop, default))
 
         self.dt = 1.0 / self.fps

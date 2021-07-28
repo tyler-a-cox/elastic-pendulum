@@ -25,3 +25,6 @@ tags = " ".join(hasttags)
 
 # Physics Settings
 GRAVITY = 9.81
+
+# Save Settings
+ASSETS = os.path.abspath(".")
