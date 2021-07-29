@@ -9,13 +9,16 @@ flexibly allow a range of parameters for the pendulum and customizible pendulum 
 
 # Installation
 
-The install the bot simply clone this repository and run the following commands
+The install the bot simply clone this repository and run the following commands in the terminal
 
 ```
 git clone https://github.com/tyler-a-cox/elastic-pendulum
 cd elastic-pendulum
 python setup.py install
 ```
+or you can install directly from the git repo
+
+`pip install git+https://github.com/tyler-a-cox/elastic-pendulum`
 
 # Basic Usage
 
@@ -25,7 +28,7 @@ simulate a pendulum and save the video like so
 ```
 from pyelastic.animate import Animation
 
-anim = Animation(fps=60, tend=10)
+anim = Animation(fps=60, tend=10, filename='example.mp4')
 anim.animate()
 ```
 For more information on the physics involved in the simulation, check out the [blog post](https://tyleracox.xyz/blog/double-pendulum/) or you can follow the bot on Twitter at [@springy_bot](https://twitter/com/springy_bot).
