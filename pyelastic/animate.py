@@ -88,7 +88,7 @@ class Animation:
 
         return self.line1, self.dot1, self.line2, self.dot2, self.dot3
 
-    def main_animate(self, size=712, dpi=100, format="mp4"):
+    def main_animate(self, size=712, dpi=100, format="mp4", colors=("cyan", "magenta")):
         """ """
         assert format in ["gif", "mp4"], "Not a supported format"
         self.pendulum = ElasticPendulum(fps=self.fps, t_end=self.tend)
@@ -107,18 +107,18 @@ class Animation:
             ylim=[np.min([self.pendulum.y1, self.pendulum.y2]), m2],
         )
         ax.axis("off")
-        (self.line1,) = ax.plot([], [], lw=2, color="cyan", zorder=0)
-        (self.dot1,) = ax.plot([], [], color="cyan", marker="o", zorder=2)
-        (self.line2,) = ax.plot([], [], lw=2, color="magenta", zorder=0)
-        (self.dot2,) = ax.plot([], [], color="magenta", marker="o", zorder=2)
-        (self.dot3,) = ax.plot([], [], color="cyan", marker="o", zorder=2)
+        (self.line1,) = ax.plot([], [], lw=2, color=colors[0], zorder=0)
+        (self.dot1,) = ax.plot([], [], color=colors[0], marker="o", zorder=2)
+        (self.line2,) = ax.plot([], [], lw=2, color=colors[1], zorder=0)
+        (self.dot2,) = ax.plot([], [], color=colors[1], marker="o", zorder=2)
+        (self.dot3,) = ax.plot([], [], color=colors[0], marker="o", zorder=2)
         self.trace_lc1 = []
         self.trace_lc2 = []
         for _ in range(self.ns):
             (trace1,) = ax.plot(
                 [],
                 [],
-                c="cyan",
+                c=colors[0],
                 solid_capstyle="round",
                 lw=1.5,
                 alpha=0,
@@ -127,7 +127,7 @@ class Animation:
             (trace2,) = ax.plot(
                 [],
                 [],
-                c="magenta",
+                c=colors[1],
                 solid_capstyle="round",
                 lw=1.5,
                 alpha=0,

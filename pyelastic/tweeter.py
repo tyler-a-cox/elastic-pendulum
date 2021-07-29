@@ -44,8 +44,9 @@ def media(filename=None, number=1, clean=False):
         None
     """
     if filename is None and number <= 1:
+        i, j = i, j = np.random.choice(np.arange(len(COLORS)), replace=False, size=2)
         pendulum = Animation(fps=60, tend=20.0)
-        pendulum.main_animate()
+        pendulum.main_animate(colors=(COLORS[i], COLORS[j]))
         status = "Starting angles {} degrees and {} degrees\n\n".format(
             np.round(np.rad2deg(pendulum.alpha), 2),
             np.round(np.rad2deg(pendulum.beta[0]), 2),
@@ -75,6 +76,6 @@ def media(filename=None, number=1, clean=False):
 
 def post_content(clean=False):
     """ """
-    npend = np.random.choice([1, 6], p=[0.25, 0.75])
+    npend = np.random.choice([1, 6], p=[0.4, 0.6])
     status, response = media(number=npend, clean=clean)
     twitter.update_status(status=status, media_ids=[response["media_id"]])
