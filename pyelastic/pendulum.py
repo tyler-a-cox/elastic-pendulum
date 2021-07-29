@@ -21,16 +21,26 @@ class ElasticPendulum:
         """Animate
 
         Args:
-            alpha_0 : boolean, default=True
-            beta_0 : boolean, default=True
-            alpha_1 : boolean, default=True
-            beta_1 : boolean, default=True
+            alpha_0 : float
+                Inital angle of the top pendulum in radians
+            beta_0 : float
+                Inital angle of the bottom pendulum in radians
+            alpha_1 : float, default=True
+                Inital angular velocity of the top pendulum in radians
+            beta_1 : float, default=True
+                Inital angular velocity of the top pendulum in radians
             k1 : boolean, default=True
+                Spring constant of the top pendulum in arbitrary units
             k2 : boolean, default=True
+                Spring constant of the top pendulum in arbitrary units
             l1 : boolean, default=True
+                Length of the top pendulum in arbitrary units
             l2 : boolean, default=True
-            m1 : boolean, default=True
-            m2 : boolean, default=True
+                Length of the bottom pendulum in arbitrary units
+            m1 : float, default=1.0
+                Mass of the top pendulum in arbitrary units
+            m2 : float, default=1.0
+                Mass of the bottom pendulum in arbitrary units
             a0 : boolean, default=True
             b0 : boolean, default=True
             a1 : boolean, default=True

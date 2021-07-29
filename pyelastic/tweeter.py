@@ -19,21 +19,6 @@ except ImportError:
 twitter = Twython(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN)
 
 
-def update_status(filename=None):
-    """Animate
-
-    Args:
-        save_movie : boolean, default=True
-
-    Returns:
-        None
-    """
-    if filename is None:
-        pendulum = Animation()
-        pendulum.animate()
-        print(pendulum.fname)
-
-
 def media(filename=None, number=1, clean=False):
     """Animate
 
@@ -46,7 +31,7 @@ def media(filename=None, number=1, clean=False):
     if filename is None and number <= 1:
         i, j = i, j = np.random.choice(np.arange(len(COLORS)), replace=False, size=2)
         pendulum = Animation(fps=60, tend=20.0)
-        pendulum.main_animate(colors=(COLORS[i], COLORS[j]))
+        pendulum.animate(colors=(COLORS[i], COLORS[j]))
         status = "Starting angles {} degrees and {} degrees\n\n".format(
             np.round(np.rad2deg(pendulum.alpha), 2),
             np.round(np.rad2deg(pendulum.beta[0]), 2),
@@ -62,7 +47,7 @@ def media(filename=None, number=1, clean=False):
             np.round(np.rad2deg(offset), 4)
         )
         status += tags
-        pendulum.main_n_animate(cmap=cmap)
+        pendulum.animate(cmap=cmap)
         filename = pendulum.filename
 
     video = open(filename, "rb")

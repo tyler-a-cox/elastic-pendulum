@@ -48,7 +48,41 @@ class Animation:
             beta = np.random.uniform(-np.pi, np.pi)
             self.beta = np.linspace(beta, beta + offset, npends)
 
-    def single_init(self):
+    def _init_figure(self, size=712, dpi=100):
+        """ """
+        mini_x, maxi_x = np.inf, -np.inf
+        mini_y, maxi_y = np.inf, -np.inf
+
+        for pend in self.pendulums:
+            if np.min([pend.x1, pend.x2]) < mini_x:
+                mini_x = np.min([pend.x1, pend.x2])
+            if np.max([pend.x1, pend.x2]) > maxi_x:
+                maxi_x = np.max([pend.x1, pend.x2])
+            if np.min([pend.y1, pend.y2]) < mini_y:
+                mini_y = np.min([pend.y1, pend.y2])
+            if np.max([pend.y1, pend.y2]) > maxi_y:
+                maxi_y = np.max([pend.y1, pend.y2])
+
+        if isinstance(size, tuple):
+            fig = plt.figure(figsize=(size[0] / dpi, size[1] / dpi), dpi=dpi)
+
+        else:
+            fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
+
+        ax = plt.axes(xlim=[mini_x, maxi_x], ylim=[mini_y, maxi_y])
+        ax.axis("off")
+
+        if isinstance(size, tuple):
+            fig.set_size_inches(size[0] / dpi, size[1] / dpi, forward=True)
+
+        else:
+            fig.set_size_inches(size / dpi, size / dpi, forward=True)
+
+        fig.tight_layout()
+
+        return fig, ax
+
+    def init_single(self):
         """ """
         self.line1.set_data([], [])
         self.dot1.set_data([], [])
@@ -60,7 +94,7 @@ class Animation:
             self.trace_lc2[j].set_data([], [])
         return self.line1, self.dot1, self.line2, self.dot2, self.dot3
 
-    def single_animate(self, i):
+    def update_single(self, i):
         """ """
         self.line1.set_data([0, self.pendulum.x1[i]], [0, self.pendulum.y1[i]])
         self.dot1.set_data(self.pendulum.x1[i], self.pendulum.y1[i])
@@ -88,9 +122,8 @@ class Animation:
 
         return self.line1, self.dot1, self.line2, self.dot2, self.dot3
 
-    def main_animate(self, size=712, dpi=100, format="mp4", colors=("cyan", "magenta")):
+    def animate_single(self, size=712, dpi=100, colors=("cyan", "magenta")):
         """ """
-        assert format in ["gif", "mp4"], "Not a supported format"
         self.pendulum = ElasticPendulum(fps=self.fps, t_end=self.tend)
         _ = self.pendulum.integrate()
 
@@ -141,25 +174,41 @@ class Animation:
 
         anim = animation.FuncAnimation(
             self.fig,
-            self.single_animate,
-            init_func=self.single_init,
+            self.update_single,
+            init_func=self.init_single,
             frames=self.pendulum.x1.shape[0],
             interval=0,
             blit=True,
             cache_frame_data=False,
         )
 
-        if format == "gif":
-            anim.save(self.filename, fps=self.fps)
+        anim.save(self.filename, fps=self.fps)
 
-        else:
-            anim.save(
-                self.filename,
+    def integrate(self, k1=None, k2=None, **pendulum_settings):
+        """ """
+        # Initialize Pendulums and Integrate
+        self.pendulums = []
+
+        if k1 is None:
+            k1 = np.random.uniform(35, 55)
+
+        if k2 is None:
+            k2 = np.random.uniform(35, 55)
+
+        for beta in self.beta:
+            ds = ElasticPendulum(
                 fps=self.fps,
-                # extra_args=["-vcodec", "libx264"],
+                t_end=self.tend,
+                alpha_0=self.alpha,
+                beta_0=beta,
+                k1=k1,
+                k2=k2,
+                **pendulum_settings
             )
+            ds.integrate()
+            self.pendulums.append(ds)
 
-    def n_init(self):
+    def init_multiple(self):
         """ """
         self.anchor.set_data(0, 0)
 
@@ -173,7 +222,7 @@ class Animation:
 
         return (self.linetop[0],)
 
-    def n_animate(self, i):
+    def update_multiple(self, i):
         """ """
         for pi in range(self.npends):
             self.linetop[pi].set_data(
@@ -198,48 +247,15 @@ class Animation:
 
         return (self.linetop[0],)
 
-    def main_n_animate(self, size=712, dpi=100, format="mp4", cmap=plt.cm.inferno):
+    def animate_multiple(self, size=712, dpi=100, cmap=plt.cm.inferno):
         """ """
-        assert format in ["gif", "mp4"], "Not a supported format"
-        self.pendulums = []
-        k1, k2 = np.random.uniform(35, 55), np.random.uniform(35, 55)
-        for b in self.beta:
-            ds = ElasticPendulum(
-                fps=self.fps,
-                t_end=self.tend,
-                alpha_0=self.alpha,
-                beta_0=b,
-                k1=k1,
-                k2=k2,
-            )
-            _ = ds.integrate()
-            self.pendulums.append(ds)
-
-        mini_x, maxi_x = 0, 1
-        mini_y, maxi_y = 0, 1
-
-        for d in self.pendulums:
-            if np.min([d.x1, d.x2]) < mini_x:
-                mini_x = np.min([d.x1, d.x2])
-            if np.max([d.x1, d.x2]) > maxi_x:
-                maxi_x = np.max([d.x1, d.x2])
-            if np.min([d.y1, d.y2]) < mini_y:
-                mini_y = np.min([d.y1, d.y2])
-            if np.max([d.y1, d.y2]) > maxi_y:
-                maxi_y = np.max([d.y1, d.y2])
-
-        if isinstance(size, tuple):
-            self.fig = plt.figure(figsize=(size[0] / dpi, size[1] / dpi), dpi=dpi)
-
-        else:
-            self.fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
-
-        ax = plt.axes(xlim=[mini_x, maxi_x], ylim=[mini_y, maxi_y])
-        ax.axis("off")
+        self.integrate()
+        fig, ax = self._init_figure()
 
         # Check if this is actually a colormap
         colors = cmap(np.linspace(0.25, 1, self.npends))
 
+        # Plot Elements
         (self.anchor,) = ax.plot(
             [], [], color=(51 / 255, 59 / 255, 71 / 255, 1), marker="o", zorder=2
         )
@@ -274,29 +290,31 @@ class Animation:
 
             self.traces.append(traces)
 
-        if isinstance(size, tuple):
-            self.fig.set_size_inches(size[0] / dpi, size[1] / dpi, forward=True)
-
-        else:
-            self.fig.set_size_inches(size / dpi, size / dpi, forward=True)
-        self.fig.tight_layout()
+        # Initialize Animation
 
         anim = animation.FuncAnimation(
-            self.fig,
-            self.n_animate,
-            init_func=self.n_init,
+            fig,
+            self.update_multiple,
+            init_func=self.init_multiple,
             frames=self.pendulums[0].x1.shape[0],
             interval=0,
             blit=True,
             cache_frame_data=False,
         )
 
-        if format == "gif":
-            anim.save(self.filename, fps=self.fps)
+        # Save animation
+        anim.save(self.filename, fps=self.fps)
+
+    def animate(
+        self,
+        size=712,
+        dpi=100,
+        cmap=plt.cm.inferno,
+        colors=("cyan", "magenta"),
+    ):
+        """ """
+        if self.npends > 1:
+            self.animate_multiple(size=size, dpi=dpi, cmap=cmap)
 
         else:
-            anim.save(
-                self.filename,
-                fps=self.fps,
-                # extra_args=["-vcodec", "libx264"],
-            )
+            self.animate_single(size=size, dpi=dpi, colors=colors)
