@@ -5,6 +5,8 @@ works by integrating the Lagrangian equations of motion for a two-dimensional do
 spring pendulum using `scipy.integrate`. Videos can be quickly generated and simulations
 flexibly allow a range of parameters for the pendulum and customizible pendulum and background colors.
 
+![Example Simulation](assets/sim.gif)
+
 # Installation
 
 The install the bot simply clone this repository and run the following commands
