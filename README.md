@@ -31,4 +31,4 @@ from pyelastic.animate import Animation
 anim = Animation(fps=60, tend=10, filename='example.mp4')
 anim.animate()
 ```
-For more information on the physics involved in the simulation, check out the [blog post](https://tyleracox.xyz/blog/double-pendulum/) or you can follow the bot on Twitter at [@springy_bot](https://twitter/com/springy_bot).
+For more information on the physics involved in the simulation, check out the [blog post](https://tyleracox.xyz/blog/double-pendulum/) or you can follow the bot on Twitter at [@springy_bot](https://twitter.com/springy_bot).
