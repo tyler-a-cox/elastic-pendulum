@@ -5,7 +5,7 @@ import cmasher as cm
 import pylab as plt
 from twython import Twython
 from .animate import Animation
-from .settings import COLORMAPS, tags
+from .settings import COLORMAPS, COLORS, tags
 
 try:
     from ._keys import API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN
