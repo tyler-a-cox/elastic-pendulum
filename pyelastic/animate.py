@@ -82,20 +82,20 @@ class Animation:
             if np.max([pend.y1, pend.y2]) > maxi_y:
                 maxi_y = np.max([pend.y1, pend.y2])
 
-        if isinstance(size, tuple):
+        if isinstance(self.size, tuple):
             fig = plt.figure(
                 figsize=(self.size[0] / self.dpi, self.size[1] / self.dpi), dpi=self.dpi
             )
 
         else:
             fig = plt.figure(
-                figsize=(self.size / self.dpi, size / self.dpi), dpi=self.dpi
+                figsize=(self.size / self.dpi, self.size / self.dpi), dpi=self.dpi
             )
 
         ax = plt.axes(xlim=[mini_x, maxi_x], ylim=[mini_y, maxi_y])
         ax.axis("off")
 
-        if isinstance(size, tuple):
+        if isinstance(self.size, tuple):
             fig.set_size_inches(
                 self.size[0] / self.dpi, self.size[1] / self.dpi, forward=True
             )
@@ -350,7 +350,7 @@ class Animation:
         Main animator function
         """
         if self.npends > 1:
-            self.animate_multiple(size=size, dpi=self.dpi, cmap=cmap)
+            self.animate_multiple(cmap=cmap)
 
         else:
-            self.animate_single(size=size, dpi=self.dpi, colors=colors)
+            self.animate_single(colors=colors)
