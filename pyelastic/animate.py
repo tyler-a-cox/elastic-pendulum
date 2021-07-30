@@ -24,7 +24,26 @@ class Animation:
         offset=0.05,
         filename="post.mp4",
     ):
-        """ """
+        """
+        Args:
+            alpha: float, default=None
+                Starting angle of upper pendulum in radians
+            beta: float, default=None
+                Starting angle of the lower pendulum in radians
+            seed: int, default=None
+                Random seed
+            fps: float, default=24
+                Frames per second of the final video
+            npends: float, default=1
+                Number of pendulums to simulate in the animation
+            tend: float, default=15
+                Time in seconds to run the simulation
+            offset: float, default=0.05
+                Offset between the first and last pendulum in radians
+            filename: str, default='post.mp4'
+                Filename of the animation. Any filetypes that matplotlib.animation
+                accepts are acceptable
+        """
         self.dpi = 100
         self.size = 712
         self.fps = fps
@@ -48,7 +67,7 @@ class Animation:
             beta = np.random.uniform(-np.pi, np.pi)
             self.beta = np.linspace(beta, beta + offset, npends)
 
-    def _init_figure(self, size=712, dpi=100):
+    def _init_figure(self):
         """ """
         mini_x, maxi_x = np.inf, -np.inf
         mini_y, maxi_y = np.inf, -np.inf
@@ -64,19 +83,27 @@ class Animation:
                 maxi_y = np.max([pend.y1, pend.y2])
 
         if isinstance(size, tuple):
-            fig = plt.figure(figsize=(size[0] / dpi, size[1] / dpi), dpi=dpi)
+            fig = plt.figure(
+                figsize=(self.size[0] / self.dpi, self.size[1] / self.dpi), dpi=self.dpi
+            )
 
         else:
-            fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
+            fig = plt.figure(
+                figsize=(self.size / self.dpi, size / self.dpi), dpi=self.dpi
+            )
 
         ax = plt.axes(xlim=[mini_x, maxi_x], ylim=[mini_y, maxi_y])
         ax.axis("off")
 
         if isinstance(size, tuple):
-            fig.set_size_inches(size[0] / dpi, size[1] / dpi, forward=True)
+            fig.set_size_inches(
+                self.size[0] / self.dpi, self.size[1] / self.dpi, forward=True
+            )
 
         else:
-            fig.set_size_inches(size / dpi, size / dpi, forward=True)
+            fig.set_size_inches(
+                self.size / self.dpi, self.size / self.dpi, forward=True
+            )
 
         fig.tight_layout()
 
@@ -122,12 +149,14 @@ class Animation:
 
         return self.line1, self.dot1, self.line2, self.dot2, self.dot3
 
-    def animate_single(self, size=712, dpi=100, colors=("cyan", "magenta")):
+    def animate_single(self, colors=("cyan", "magenta")):
         """ """
         self.pendulum = ElasticPendulum(fps=self.fps, t_end=self.tend)
         _ = self.pendulum.integrate()
 
-        self.fig = plt.figure(figsize=(size / dpi, size / dpi), dpi=dpi)
+        self.fig = plt.figure(
+            figsize=(self.size / self.dpi, self.size / self.dpi), dpi=self.dpi
+        )
         m1 = np.max([self.pendulum.x1, self.pendulum.x2])
         m2 = np.max([self.pendulum.y1, self.pendulum.y2])
         if m1 < 0:
@@ -169,7 +198,9 @@ class Animation:
             self.trace_lc1.append(trace1)
             self.trace_lc2.append(trace2)
 
-        self.fig.set_size_inches(size / dpi, size / dpi, forward=True)
+        self.fig.set_size_inches(
+            self.size / self.dpi, self.size / self.dpi, forward=True
+        )
         self.fig.tight_layout()
 
         anim = animation.FuncAnimation(
@@ -247,8 +278,13 @@ class Animation:
 
         return (self.linetop[0],)
 
-    def animate_multiple(self, size=712, dpi=100, cmap=plt.cm.inferno):
-        """ """
+    def animate_multiple(self, cmap=plt.cm.inferno):
+        """Animate multiple pendulums
+
+        Args:
+            cmap: plt.cm or cmasher, default=plt.cm.inferno
+                Colormap to use with the animation
+        """
         self.integrate()
         fig, ax = self._init_figure()
 
@@ -307,14 +343,14 @@ class Animation:
 
     def animate(
         self,
-        size=712,
-        dpi=100,
         cmap=plt.cm.inferno,
         colors=("cyan", "magenta"),
     ):
-        """ """
+        """
+        Main animator function
+        """
         if self.npends > 1:
-            self.animate_multiple(size=size, dpi=dpi, cmap=cmap)
+            self.animate_multiple(size=size, dpi=self.dpi, cmap=cmap)
 
         else:
-            self.animate_single(size=size, dpi=dpi, colors=colors)
+            self.animate_single(size=size, dpi=self.dpi, colors=colors)

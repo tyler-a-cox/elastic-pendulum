@@ -16,19 +16,27 @@ except ImportError:
     ACCESS_TOKEN = sys.getenv("ACCESS_TOKEN")
     ACCESS_SECRET_TOKEN = sys.getenv("ACCESS_SECRET_TOKEN")
 
+# Authorization through Twython
 twitter = Twython(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN)
 
 
-def media(filename=None, number=1, clean=False):
-    """Animate
+def media(number=1, clean=False):
+    """Setup the simulations for posting
 
     Args:
-        save_movie : boolean, default=True
+        number : int, default=1
+            Number of pendulums to simulate
+        clean : bool, default=False
+            If true, the video will be deleted after being posted
 
     Returns:
-        None
+        status : str
+            Text to be posted with the video describing the video
+        response : dict
+            Dictionary describing the metadata of the tweet
+
     """
-    if filename is None and number <= 1:
+    if number == 1:
         i, j = i, j = np.random.choice(np.arange(len(COLORS)), replace=False, size=2)
         pendulum = Animation(fps=60, tend=20.0)
         pendulum.animate(colors=(COLORS[i], COLORS[j]))
@@ -39,7 +47,7 @@ def media(filename=None, number=1, clean=False):
         status += tags
         filename = pendulum.filename
 
-    elif filename is None and number > 1:
+    else:
         cmap = np.random.choice(COLORMAPS)
         offset = np.random.uniform(1e-3, 0.1)
         pendulum = Animation(fps=60, tend=20.0, npends=number, offset=offset)
@@ -59,8 +67,13 @@ def media(filename=None, number=1, clean=False):
     return status, response
 
 
-def post_content(clean=False):
-    """ """
+def tweet(clean=False):
+    """Tweet out a video of a springy double pendulum
+
+    Args:
+        clean : bool, default=False
+            If true, the video will be deleted after being posted
+    """
     npend = np.random.choice([1, 6], p=[0.4, 0.6])
     status, response = media(number=npend, clean=clean)
     twitter.update_status(status=status, media_ids=[response["media_id"]])

@@ -8,14 +8,8 @@ from .settings import *
 
 
 class ElasticPendulum:
-    """Animate
-
-    Args:
-        save_movie : boolean, default=True
-
-    Returns:
-        None
-    """
+    """Class that handles the simulation of springy, double pendulums. This class
+    handles a number of initial conditions from starting angle to pendulum mass"""
 
     def __init__(self, **kwargs):
         """Animate
@@ -45,8 +39,11 @@ class ElasticPendulum:
             b0 : boolean, default=True
             a1 : boolean, default=True
             b1 : boolean, default=True
-            t_end : boolean, default=True
-            fps : boolean, default=True
+            t_end : float, default=2
+                Length of the simulation in seconds
+            fps : int, default=24
+                Frame rate of the video simulation. Sets the resolution of the integrator
+                and helps to visualize the results later
         """
         prop_defaults = {
             "alpha_0": np.random.uniform(-np.pi, np.pi),
@@ -165,10 +162,15 @@ class ElasticPendulum:
         ]
 
     def integrate(self, method="LSODA", interpolate=True):
-        """Animate
+        """Main
 
         Args:
-            save_movie : boolean, default=True
+            method : str, default=LSODA
+                Integrator type to integrate the set of differential equations. Options
+                are: RK45, RK23, DOP853, Radu, BDF, and LSODA. For more information, see
+                scipy.integrate.solve_ivp documentation
+            interpolate : boolean, default=True
+                Whether to interpolate the final results. Useful for animation
 
         Returns:
             None
