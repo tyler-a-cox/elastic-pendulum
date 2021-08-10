@@ -12,9 +12,9 @@ try:
 
 except ImportError:
     API_KEY = sys.getenv("API_KEY")
-    API_SECRET_KEY = sys.getenv("API_SECRET_KEY")
+    API_SECRET_KEY = sys.getenv("API_SECRET")
     ACCESS_TOKEN = sys.getenv("ACCESS_TOKEN")
-    ACCESS_SECRET_TOKEN = sys.getenv("ACCESS_SECRET_TOKEN")
+    ACCESS_SECRET_TOKEN = sys.getenv("ACCESS_TOKEN_SECRET")
 
 # Authorization through Twython
 twitter = Twython(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN)
