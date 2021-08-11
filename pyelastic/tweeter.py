@@ -11,10 +11,10 @@ try:
     from ._keys import API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN
 
 except ImportError:
-    API_KEY = sys.getenv("API_KEY")
-    API_SECRET_KEY = sys.getenv("API_SECRET")
-    ACCESS_TOKEN = sys.getenv("ACCESS_TOKEN")
-    ACCESS_SECRET_TOKEN = sys.getenv("ACCESS_TOKEN_SECRET")
+    API_KEY = os.getenv("API_KEY")
+    API_SECRET_KEY = os.getenv("API_SECRET")
+    ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+    ACCESS_SECRET_TOKEN = os.getenv("ACCESS_TOKEN_SECRET")
 
 # Authorization through Twython
 twitter = Twython(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_SECRET_TOKEN)
