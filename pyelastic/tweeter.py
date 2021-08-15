@@ -49,7 +49,7 @@ def media(number=1, clean=False):
 
     else:
         cmap = np.random.choice(COLORMAPS)
-        offset = np.random.uniform(1e-3, 0.1)
+        offset = np.random.uniform(1e-3, 0.025)
         pendulum = Animation(fps=60, tend=20.0, npends=number, offset=offset)
         status = "6 indentical double pendulums separated by {} degrees\n\n".format(
             np.round(np.rad2deg(offset), 4)
