@@ -74,6 +74,6 @@ def tweet(clean=False):
         clean : bool, default=False
             If true, the video will be deleted after being posted
     """
-    npend = np.random.choice([1, 6], p=[0.4, 0.6])
+    npend = np.random.choice([1, 6], p=[0.7, 0.3])
     status, response = media(number=npend, clean=clean)
     twitter.update_status(status=status, media_ids=[response["media_id"]])
