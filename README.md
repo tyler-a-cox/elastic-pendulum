@@ -1,15 +1,16 @@
-# Springy Double Pendulum
+# Springy Double Pendulum Twitter Bot
 
-Twitter bot that generates and posts videos of a double elastic pendulum. The bot
-works by integrating the Lagrangian equations of motion for a two-dimensional double
-spring pendulum using `scipy.integrate`. Videos can be quickly generated and simulations
-flexibly allow a range of parameters for the pendulum and customizible pendulum and background colors.
+<p align="center">
+  <img src="assets/sim.gif" alt="animated" width="80%" height="80%"/>
+</p>
 
-![Example Simulation](assets/sim.gif)
+Elastic Pendulum is a bot that generates and posts videos of double elastic pendulums to Twitter twice a day. A double elastic pendulum (or double spring pendulum) is a variation of a common system in mechanics and Chaos theory known as the double pendulum, which is essentially a pendulum attached to another pendulum. These types of systems are particularly interesting because their motion is incredibly complex and cannot be solved for using standard Newtonian mechanics. The main difference between a double pendulum and a double spring pendulum is that the fixed rods commonly seen in double pendulum problems are replaced with springs. This minor change leads to even more chaotic behavior than the standard double pendulums.
+
+The bot works by integrating the Lagrangian equations of motion for a two-dimensional double spring pendulum using `scipy.integrate`. Videos can be quickly generated and simulations flexibly allow a range of parameters for the double pendulum system and customizible pendulum and background colors.
 
 # Installation
 
-The install the bot simply clone this repository and run the following commands in the terminal
+To install the bot simply clone this repository and run the following commands in the terminal
 
 ```
 git clone https://github.com/tyler-a-cox/elastic-pendulum
