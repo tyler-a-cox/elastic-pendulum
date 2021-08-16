@@ -1,7 +1,7 @@
 # Springy Double Pendulum Twitter Bot
 
 <p align="center">
-  <img src="assets/sim.gif" alt="animated" width="60%" height="60%"/>
+  <img src="assets/sim.gif" alt="animated" width="95%" height="60%"/>
 </p>
 
 Elastic Pendulum is a bot that generates and posts videos of double elastic pendulums to Twitter twice a day. A double elastic pendulum (or double spring pendulum) is a variant of a common system in mechanics known as the double pendulum, which is essentially a pendulum attached to the end of another pendulum. These types of systems are particularly interesting because their motion is complex and cannot be solved for using standard Newtonian mechanics. The main difference between a double pendulum and a double spring pendulum is that the fixed rods commonly seen in double pendulum problems are replaced with springs. This minor change leads to even more chaotic behavior than the standard double pendulums. The gif above shows 5 double pendulums simulated with slightly different starting angles leading to different simulated trajectories. 
